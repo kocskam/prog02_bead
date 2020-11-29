@@ -7,8 +7,7 @@ class MissingDataException(Exception):
 
 class Player:
 
-    def __init__(self, id, name, time):
-        self.__id = id
+    def __init__(self, name, time):
         self.__name = name
         self.__time = time
 
@@ -18,8 +17,5 @@ class Player:
     def getName(self):
         return self.__name
 
-    def getID(self):
-        return self.__id()
-
     def save2File(self, fout):
-        print(self.__id + ";" + self.__name + ";" + self.__time)
+        print(self.__name + ";" + self.__time)

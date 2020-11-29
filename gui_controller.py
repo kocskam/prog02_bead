@@ -16,11 +16,17 @@ class Controller:
 
         self.ui.b_Start.clicked.connect(self.clickStart)
         self.ui.b_Exit.clicked.connect(self.clickExit)
-        self.ui.b_Result.clicked.connect(self.clickResult)
+        # self.ui.b_Result.clicked.connect(self.saveResults())
 
         self.list = []
+        self.name = self.ui.in_Name.toPlainText()
+        # self.loadData()
+        # self.save3File("kecsa", "dsadas")
+        # self.saveData()
 
         self.mw.show()
+
+
 
     def clickExit(self):
         print("Na")
@@ -48,34 +54,46 @@ class Controller:
         # msg.setText(str(self.time.toString("hh:mm:ss")))
         # msg.exec()
         # print()
+        self.name = self.ui.in_Name.toPlainText()
 
-        name = self.ui.in_Name.toPlainText()
-        print(name)
-
-        try:
-            if name == "":
-                raise Exception('név')
-        except Exception as e:
+        if self.name == "":
             msg = QtWidgets.QMessageBox()
-            msg.setWindowTitle("Hiba")
-            msg.setText("Hiányzó " + str(e) + ".")
+            msg.setWindowTitle("FIGYELEM!")
+            msg.setText("Adjon meg egy nevet a játék indulásához!")
+            msg.setIcon(QtWidgets.QMessageBox.Information)
             msg.exec()
+        else:
+            # try:
+            #     if self.name == "":
+            #         raise Exception('név')
+            # except Exception as e:
+            #     msg = QtWidgets.QMessageBox()
+            #     msg.setWindowTitle("Hiba")
+            #     msg.setText("Hiányzó " + str(e) + ".")
+            #     msg.exec()
 
-        self.curr_time = QtCore.QTime(00, 00, 00)
-        self.timer0 = QtCore.QTimer()
-        self.time = QtCore.QTime(00, 00, 00)
-        self.timer0.setInterval(1000)
-        self.timer0.timeout.connect(self.calc)
-        self.timer0.start()
-        self.ui.lcdNumber.display(str(self.calc()))
+            self.curr_time = QtCore.QTime(00, 00, 00)
+            self.timer0 = QtCore.QTimer()
+            self.time = QtCore.QTime(00, 00, 00)
+            self.timer0.setInterval(1000)
+            self.timer0.timeout.connect(self.calc)
+            self.timer0.start()
+            self.ui.lcdNumber.display(str(self.calc()))
 
-    def save2File(self, name, time):
+    def loadData(self):
+        fin = open("database.txt", "r")
+        for r in fin:
+            ls = r.split(";")
+            nw = Player(ls[0], ls[1])
+            self.list.append(nw)
+            print(ls)
+            #self.ui-ra hibát dob!
+            # self.ui.ls_Players.addItem(nw.__str__())
+        fin.close()
+
+    def saveData(self):
         try:
-            if name == "":
-                raise MissingDataException("név")
-            if time == "":
-                raise MissingDataException("időtartam")
-            fout = open("database.txt", "w")
+            fout = open("database.txt", "a")
             for w in self.list:
                 w.save2File(fout)
             fout.close()
@@ -84,13 +102,39 @@ class Controller:
             msg.setText('Hiba történt:\n' + e.__str__())
             msg.exec()
 
-    def loadData(self):
-        fin = open("database.txr", "r")
-        for r in fin:
-            ls = r.split(";")
-            nw = Player(ls[0], ls[1], ls[2])
-            self.list.append(nw)
-        fin.close()
+    def save3File(self, name, time):
+        try:
+            if name == "":
+                raise MissingDataException("név")
+            if time == "":
+                raise MissingDataException("időtartam")
+
+
+
+            fout = open("database.txt", "a")
+            for w in self.list:
+                w.save2File(fout)
+            fout.close()
+        except Exception as e:
+            msg = QtWidgets.QMessageBox()
+            msg.setText('Hiba történt:\n' + e.__str__())
+            msg.exec()
+
+    def saveResults(self):
+
+        try:
+            time = "dsad"
+            if self.name=='':
+                raise MissingDataException('name')
+            if time=='':
+                raise MissingDataException('time')
+
+            newPlayer = Player(self.name, time)
+            self.list.append(newPlayer)
+        except Exception as e:
+            msg = QtWidgets.QMessageBox()
+            msg.setText('Hiba történt:\n' + e.__str__())
+            msg.exec()
 
     def calc(self):
         global time
