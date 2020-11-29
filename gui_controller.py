@@ -41,8 +41,17 @@ class Controller:
             QtWidgets.QApplication.instance().quit()
 
     def clickStart(self):
+        # print("VÉGE")
+        # msg = QtWidgets.QMessageBox()
+        # msg.setWindowTitle('GRATULÁLUNK!')
+        # msg.setIcon(QtWidgets.QMessageBox.Information)
+        # msg.setText(str(self.time.toString("hh:mm:ss")))
+        # msg.exec()
+        # print()
 
-        name = "PLayer"
+        name = self.ui.in_Name.toPlainText()
+        print(name)
+
         try:
             if name == "":
                 raise Exception('név')
@@ -66,7 +75,6 @@ class Controller:
                 raise MissingDataException("név")
             if time == "":
                 raise MissingDataException("időtartam")
-
             fout = open("database.txt", "w")
             for w in self.list:
                 w.save2File(fout)
@@ -84,12 +92,10 @@ class Controller:
             self.list.append(nw)
         fin.close()
 
-
     def calc(self):
         global time
         self.time = self.time.addSecs(1)
         self.ui.lcdNumber.display(self.time.toString("hh:mm:ss"))
-
 
     def clickResult(self):
         name = QtWidgets.QApplication.ui.in_Name.text()
