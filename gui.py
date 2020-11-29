@@ -34,7 +34,7 @@ class Ui_MainWindow(object):
         self.label.setGeometry(QRect(30, 30, 121, 41))
         self.in_Name = QTextEdit(self.centralwidget)
         self.in_Name.setObjectName(u"in_Name")
-        self.in_Name.setGeometry(QRect(30, 70, 91, 41))
+        self.in_Name.setGeometry(QRect(30, 130, 91, 41))
         self.frame = QFrame(self.centralwidget)
         self.frame.setObjectName(u"frame")
         self.frame.setGeometry(QRect(119, 29, 661, 431))
@@ -52,6 +52,14 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
+        self.ls_Players = QTextBrowser(self.centralwidget)
+        self.ls_Players.setObjectName(u"ls_Players")
+        self.ls_Players.setGeometry(QRect(240, 290, 256, 192))
+
+        self.lcdNumber = QLCDNumber(self.centralwidget)
+        self.lcdNumber.setObjectName(u"lcdNumber")
+        self.lcdNumber.setGeometry(QRect(30, 360, 64, 23))
+
         self.retranslateUi(MainWindow)
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -62,11 +70,6 @@ class Ui_MainWindow(object):
         self.b_Start.setText(QCoreApplication.translate("MainWindow", u"J\u00e1t\u00e9k Ind\u00edt\u00e1sa", None))
         self.b_Exit.setText(QCoreApplication.translate("MainWindow", u"Kil\u00e9p\u00e9s", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Add meg a neved!", None))
-        self.in_Name.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">N\u00e9v</p></body></html>", None))
         self.b_Result.setText(QCoreApplication.translate("MainWindow", u"Eddigi eredm\u00e9nyek", None))
     # retranslateUi
 
