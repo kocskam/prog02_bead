@@ -1,3 +1,2 @@
 Kecske;334
 Bari;5435
-DSA;43242
