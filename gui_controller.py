@@ -14,7 +14,6 @@ class Controller:
 
         self.ui.b_Start.clicked.connect(self.clickStart)
         self.ui.b_Exit.clicked.connect(self.clickExit)
-        # self.ui.b_Result.clicked.connect(self.saveResults())
 
         self.list = []
         self.name = self.ui.in_Name.toPlainText()
@@ -28,7 +27,6 @@ class Controller:
         self.mw.show()
 
     def clickExit(self):
-        print("Na")
         msg = QMessageBox()
         msg.setWindowTitle("Kilépés megerősítése")
         msg.setText("Biztosan ki akar lépni?")
@@ -41,7 +39,7 @@ class Controller:
         msg.exec_()
 
     def popup_button(self, i):
-        print(i.text())
+        # print(i.text())
         if i.text() == "OK":
             QtWidgets.QApplication.instance().quit()
 
@@ -123,10 +121,6 @@ class Controller:
         global time
         self.time = self.time.addSecs(1)
         self.ui.lcdNumber.display(self.time.toString("hh:mm:ss"))
-
-    def clickResult(self):
-        name = QtWidgets.QApplication.ui.in_Name.text()
-        print(name)
 
     #main
     # t_maze = getMaze()
