@@ -1,9 +1,11 @@
 import sys
 
-from PyQt5 import QtWidgets, QtCore, QtGui
+import PyQt5
+from PyQt5 import QtWidgets, QtCore, QtGui, uic
 from gui import Ui_MainWindow
 from PySide2.QtWidgets import QMainWindow, QDialogButtonBox, QVBoxLayout, QDialog, QMessageBox
 from Player import Player, MissingDataException
+from PyQt5.QtWidgets import (QApplication, QWidget, QMessageBox)
 
 class Controller:
 
@@ -15,14 +17,14 @@ class Controller:
         self.ui.b_Start.clicked.connect(self.clickStart)
         self.ui.b_Exit.clicked.connect(self.clickExit)
 
+        # self.ui.b_Exit.clicked.connect(self.finish)
+
         self.list = []
         self.name = self.ui.in_Name.toPlainText()
+        self.timer0 = QtCore.QTimer()
+        self.time = QtCore.QTime(00, 00, 00)
 
         self.loadData()
-
-        #játék végénél lefuttatni:
-        # self.save3File("kecsa", "dsadas")
-        # self.saveData()
 
         self.mw.show()
 
@@ -34,23 +36,36 @@ class Controller:
         msg.setIcon(QMessageBox.Question)
         msg.setStandardButtons(QMessageBox.Cancel | QMessageBox.Ok)
         msg.setDefaultButton(QMessageBox.Cancel)
-
         msg.buttonClicked.connect(self.popup_button)
         msg.exec_()
+
+    def closeEvent(self, event):
+        print("test")
+        reply = QMessageBox.question(self, "Bezárás", "Biztosan ki akar lépni?", "Kilépés esetén nem véhezhető el a mentés!", QMessageBox.Yes, QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
     def popup_button(self, i):
         # print(i.text())
         if i.text() == "OK":
             QtWidgets.QApplication.instance().quit()
 
+    def finish(self):
+        self.timer0.stop()
+        tim = str(self.time.toString("hh:mm:ss"))
+        # print(tim)
+        # print(self.name)
+        self.saveData(self.name, tim)
+
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle('GRATULÁLUNK!')
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText("Az Ön ideje: " + str(self.time.toString("hh:mm:ss")))
+        msg.exec()
+
     def clickStart(self):
-        # print("VÉGE")
-        # msg = QtWidgets.QMessageBox()
-        # msg.setWindowTitle('GRATULÁLUNK!')
-        # msg.setIcon(QtWidgets.QMessageBox.Information)
-        # msg.setText(str(self.time.toString("hh:mm:ss")))
-        # msg.exec()
-        # print()
         self.name = self.ui.in_Name.toPlainText()
 
         if self.name == "":
@@ -60,50 +75,58 @@ class Controller:
             msg.setIcon(QtWidgets.QMessageBox.Information)
             msg.exec()
         else:
-            # try:
-            #     if self.name == "":
-            #         raise Exception('név')
-            # except Exception as e:
-            #     msg = QtWidgets.QMessageBox()
-            #     msg.setWindowTitle("Hiba")
-            #     msg.setText("Hiányzó " + str(e) + ".")
-            #     msg.exec()
-
+            self.ui.b_Start.setEnabled(False)
             self.curr_time = QtCore.QTime(00, 00, 00)
-            self.timer0 = QtCore.QTimer()
-            self.time = QtCore.QTime(00, 00, 00)
+
             self.timer0.setInterval(1000)
             self.timer0.timeout.connect(self.calc)
             self.timer0.start()
             self.ui.lcdNumber.display(str(self.calc()))
 
-    def saveData(self):
-        try:
-            fout = open("database.txt", "w")
-            for w in self.list:
-                w.save2File(fout)
-            fout.close()
-            print(self.list)
-        except Exception as e:
-            msg = QtWidgets.QMessageBox()
-            msg.setText('Hiba történt:\n' + e.__str__())
-            msg.exec()
+
+    def calc(self):
+        global time
+        self.time = self.time.addSecs(1)
+        self.ui.lcdNumber.display(self.time.toString("hh:mm:ss"))
 
     def loadData(self):
+        first = True
         fin = open("database.txt", "r")
         for r in fin:
-            ls = r.split(";")
-            nw = Player(ls[0], ls[1])
-            self.list.append(nw)
-            self.ui.ls_Players.append(str("NÉV: " + ls[0] + " IDŐ: " + ls[1]))
+            if r != "\n":
+                ls = r.split(";")
+                nw = Player(ls[0], ls[1])
+                self.list.append(nw)
+
+                try:
+                    # int(ls[1])
+                    #ellenőrizni, hogy idő-e azaz int
+                    pass
+                except Exception:
+                    if first:
+                        msg = QtWidgets.QMessageBox()
+                        msg.setWindowTitle("FIGYELEM!")
+                        msg.setText("Hiba a beolvasás során!")
+                        msg.setIcon(QtWidgets.QMessageBox.Information)
+                        msg.exec()
+                    first = False
+                    continue
+
+                self.ui.ls_Players.append(str("NÉV: " + ls[0] + '\n' + "IDŐ: " + ls[1]))
+            else:
+                continue
+
         fin.close()
 
-    def save3File(self, name, time):
+    def saveData(self, name, time):
         try:
             if name == "":
                 raise MissingDataException("név")
             if time == "":
                 raise MissingDataException("időtartam")
+
+            # print(type(time))
+            # print(isinstance(time, ))
 
             newPlayer = Player(name, time)
             self.list.append(newPlayer)
@@ -116,11 +139,6 @@ class Controller:
             msg = QtWidgets.QMessageBox()
             msg.setText('Hiba történt:\n' + e.__str__())
             msg.exec()
-
-    def calc(self):
-        global time
-        self.time = self.time.addSecs(1)
-        self.ui.lcdNumber.display(self.time.toString("hh:mm:ss"))
 
     #main
     # t_maze = getMaze()

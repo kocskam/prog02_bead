@@ -18,4 +18,4 @@ class Player:
         return self.__name
 
     def save2File(self, fout):
-        print(self.__name + ";" + self.__time, end="", file=fout)
+        print(self.__name + ";" + self.__time, end="\n", file=fout)
