@@ -55,15 +55,14 @@ class Babu(QtWidgets.QLabel):
 
 
 
+
     def keyPressEvent(self, event):
         try:
 
             if (self.x(), self.y()) in Finish.finish:
                 self.setPixmap(QtGui.QPixmap('lab_nyert.png'))
-                msg = QMessageBox()
-                msg.setText('Vege')
-                msg.exec()
-                sys.exit()
+
+
 
 
             if event.key() == Qt.Key_Right:
@@ -96,17 +95,6 @@ class Babu(QtWidgets.QLabel):
         except Exception as e:
             print(e)
 
-# class Gomb(QtWidgets.QPushButton):
-#     def __init__(self, parent=None):
-#         super().__init__('Start',parent)
-#
-#     def mousePressEvent(self, e: QtGui.QMouseEvent) -> None:
-#         try:
-#             if e:
-#                 MainWindow.createGame(MainWindow)
-#                 self.show()
-#         except Exception as e:
-#             print(e)
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -139,10 +127,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.timer0 = QtCore.QTimer()
         self.time = QtCore.QTime(00, 00, 00)
 
+
         self.list = []
         self.loadData()
 
         self.createGame()
+
         self.show()
 
 
@@ -165,6 +155,8 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.path = Path(self.centralWidget)
                     self.path.setGeometry(200+i*32, 200+j*32, 32, 32)
                 if maze[i][j] == '2':
+                    z = 200+i*32
+                    w = 200+i*32
                     self.finish = Finish(self.centralWidget)
                     self.finish.setGeometry(200+i*32, 200+j*32, 32, 32)
                     Finish.finish.append((self.finish.x(),self.finish.y()))
@@ -282,6 +274,19 @@ class MainWindow(QtWidgets.QMainWindow):
             msg = QtWidgets.QMessageBox()
             msg.setText('Hiba történt:\n' + e.__str__())
             msg.exec()
+
+    def finish(self):
+        self.timer0.stop()
+        tim = str(self.time.toString("hh:mm:ss"))
+        # print(tim)
+        # print(self.name)
+        self.saveData(self.name, tim)
+
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle('GRATULÁLUNK!')
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText("Az Ön ideje: " + str(self.time.toString("hh:mm:ss")))
+        msg.exec()
 
 
 
