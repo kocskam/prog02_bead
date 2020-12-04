@@ -131,9 +131,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.show()
 
-    def restart(self):
-        qApp.exit(self.EXIT_CODE_REBOOT)
-
     def createGame(self):
         maze = getMaze()
         for i in range(len(maze)):
@@ -168,8 +165,6 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             event.ignore()
 
-
-
     def clickExit(self):
         try:
             msg = QMessageBox()
@@ -188,7 +183,6 @@ class MainWindow(QtWidgets.QMainWindow):
         # print(i.text())
         if i.text() == "OK":
             QtWidgets.QApplication.instance().quit()
-
 
     def clickStart(self):
         try:
@@ -219,17 +213,21 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def loadData(self):
         first = True
-        fin = open("database.txt", "r")
+        try:
+            fin = open("database.txt", "r")
+        except Exception:
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("FIGYELEM!")
+            msg.setText("Hiba a beolvasás során! A fájl nem található!")
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.exec()
+
         for r in fin:
             if r != "\n":
-                ls = r.split(";")
-                nw = Player(ls[0], ls[1])
-                self.list.append(nw)
-
                 try:
-                    # int(ls[1])
-                    #ellenőrizni, hogy idő-e azaz int
-                    pass
+                    ls = r.split(";")
+                    nw = Player(ls[0], ls[1])
+                    self.list.append(nw)
                 except Exception:
                     if first:
                         msg = QtWidgets.QMessageBox()
