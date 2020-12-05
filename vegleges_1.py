@@ -244,17 +244,21 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def loadData(self):
         first = True
-        fin = open("database.txt", "r")
+        try:
+            fin = open("database.txt", "r")
+        except Exception:
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("FIGYELEM!")
+            msg.setText("Hiba a beolvasás során! A fájl nem található!")
+            msg.setIcon(QtWidgets.QMessageBox.Information)
+            msg.exec()
+
         for r in fin:
             if r != "\n":
-                ls = r.split(";")
-                nw = Player(ls[0], ls[1])
-                self.list.append(nw)
-
                 try:
-                    # int(ls[1])
-                    #ellenőrizni, hogy idő-e azaz int
-                    pass
+                    ls = r.split(";")
+                    nw = Player(ls[0], ls[1])
+                    self.list.append(nw)
                 except Exception:
                     if first:
                         msg = QtWidgets.QMessageBox()
@@ -278,9 +282,6 @@ class MainWindow(QtWidgets.QMainWindow):
             if time == "":
                 raise MissingDataException("időtartam")
 
-            # print(type(time))
-            # print(isinstance(time, ))
-
             newPlayer = Player(name, time)
             self.list.append(newPlayer)
             print(self.list)
@@ -292,9 +293,6 @@ class MainWindow(QtWidgets.QMainWindow):
             msg = QtWidgets.QMessageBox()
             msg.setText('Hiba történt:\n' + e.__str__())
             msg.exec()
-
-    def getTim(self):
-        return self.tim
 
     def endGame(self):
         self.timer0.stop()
@@ -308,6 +306,7 @@ class MainWindow(QtWidgets.QMainWindow):
         msg.exec()
 
         #reset game
+        QtWidgets.QApplication.instance().quit()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
