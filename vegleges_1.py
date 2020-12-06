@@ -206,6 +206,7 @@ class MainWindow(QtWidgets.QMainWindow):
             msg.setDefaultButton(QMessageBox.Cancel)
             msg.buttonClicked.connect(self.popup_button)
             msg.exec()
+            self.babu.setFocus()
         except Exception as e:
             print(e)
 
