@@ -206,6 +206,7 @@ class MainWindow(QtWidgets.QMainWindow):
             msg.setDefaultButton(QMessageBox.Cancel)
             msg.buttonClicked.connect(self.popup_button)
             msg.exec()
+            self.babu.setFocus()
         except Exception as e:
             print(e)
 
@@ -228,6 +229,7 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 self.babu.setFocus()
                 self.b_Start.setEnabled(False)
+                self.in_Name.setEnabled(False)
                 self.curr_time = QtCore.QTime(00, 00, 00)
 
                 self.timer0.setInterval(1000)
@@ -304,6 +306,9 @@ class MainWindow(QtWidgets.QMainWindow):
         msg.setIcon(QtWidgets.QMessageBox.Information)
         msg.setText("Az Ön ideje: " + str(self.time.toString("hh:mm:ss")))
         msg.exec()
+        
+        self.in_Name.setEnabled(True)
+        self.b_Start.setEnabled(True)
 
         #reset game
         QtWidgets.QApplication.instance().quit()
