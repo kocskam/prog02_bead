@@ -315,6 +315,7 @@ class MainWindow(QtWidgets.QMainWindow):
         msg.exec()
 
         self.ls_Players.append(str("NÉV: " + self.name + '\n' + "IDŐ: " + tim))
+        self.babu.clearFocus()
 
 
 if __name__ == '__main__':
