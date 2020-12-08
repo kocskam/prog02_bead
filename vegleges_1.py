@@ -195,20 +195,19 @@ class MainWindow(QtWidgets.QMainWindow):
         self.babu.setGeometry(x, y, 32, 32)
 
 
-    def closeEvent(self, event):
-        print("test")
-        reply = QMessageBox.question(self, "Bezárás", "Biztosan ki akar lépni?", "Kilépés esetén nem véhezhető el a mentés!", QMessageBox.Yes, QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
+    # def closeEvent(self, event):
+    #     reply = QMessageBox.question(self, "Bezárás", "Biztosan ki akar lépni?", "Ha a játék nem fejeződött be, nem végezhető el a mentés!", QMessageBox.Yes, QMessageBox.No, QMessageBox.No)
+    #     if reply == QMessageBox.Yes:
+    #         event.accept()
+    #     else:
+    #         event.ignore()
 
     def clickExit(self):
         try:
             msg = QMessageBox()
             msg.setWindowTitle("Kilépés megerősítése")
             msg.setText("Biztosan ki akar lépni?")
-            msg.setInformativeText("Kilépés esetén a mentés nem végezhető el.")
+            msg.setInformativeText("Ha a játék nem fejeződött be, nem végezhető el a mentés!")
             msg.setIcon(QMessageBox.Question)
             msg.setStandardButtons(QMessageBox.Cancel | QMessageBox.Ok)
             msg.setDefaultButton(QMessageBox.Cancel)
@@ -223,7 +222,6 @@ class MainWindow(QtWidgets.QMainWindow):
         # print(i.text())
         if i.text() == "OK":
             QtWidgets.QApplication.instance().quit()
-
 
     def clickStart(self):
         try:
@@ -318,7 +316,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.flag = True
         self.ls_Players.append(str("NÉV: " + self.name + '\n' + "IDŐ: " + tim))
         self.babu.clearFocus()
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
