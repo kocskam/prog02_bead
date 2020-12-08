@@ -313,12 +313,9 @@ class MainWindow(QtWidgets.QMainWindow):
         msg.setIcon(QtWidgets.QMessageBox.Information)
         msg.setText("Az Ön ideje: " + str(self.time.toString("hh:mm:ss")))
         msg.exec()
-        
-        self.in_Name.setEnabled(True)
-        self.b_Start.setEnabled(True)
 
-        #reset game
-        QtWidgets.QApplication.instance().quit()
+        self.ls_Players.append(str("NÉV: " + self.name + '\n' + "IDŐ: " + tim))
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

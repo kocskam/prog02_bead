@@ -1,10 +1,6 @@
 import random
-from colorama import init
-from colorama import Fore
 
 def printMaze(maze):
-    # colorama
-    init()
 
     # for i in range(0, height):
     #     for j in range(0, width):
@@ -14,13 +10,13 @@ def printMaze(maze):
     for i in range(0, height):
         for j in range(0, width):
             if (maze[i][j] == wall):
-                print(Fore.GREEN + str(maze[i][j]), end=" ")
+                print(str(maze[i][j]), end=" ")
             elif (maze[i][j] == "2"):
-                print(Fore.LIGHTCYAN_EX + str(maze[i][j]), end=" ")
+                print(str(maze[i][j]), end=" ")
             elif (maze[i][j] == "3"):
-                print(Fore.BLUE + str(maze[i][j]), end=" ")
+                print(str(maze[i][j]), end=" ")
             else:
-                print(Fore.RED + str(maze[i][j]), end=" ")
+                print(str(maze[i][j]), end=" ")
 
         print('\n')
 
@@ -47,13 +43,13 @@ def delete_wall(rand_wall, walls):
         if (wall[0] == rand_wall[0] and wall[1] == rand_wall[1]):
             walls.remove(wall)
 
-def mainFunctionGenerateLab(wall, cell, unvisited, height, width, maze):
+def mainFunctionGenerateLab(wall, cell, seged, height, width, maze):
 
     # üres labirintus létrehozása:
     for i in range(0, height):
         line = []
         for j in range(0, width):
-            line.append(unvisited)
+            line.append(seged)
         maze.append(line)
 
     # random tér kiválasztása:
@@ -91,7 +87,7 @@ def mainFunctionGenerateLab(wall, cell, unvisited, height, width, maze):
         # Bal
         if rand_wall[1] != 0:
             # print(rand_wall)
-            if (maze[rand_wall[0]][rand_wall[1] - 1] == 'u' and maze[rand_wall[0]][rand_wall[1] + 1] == cell):
+            if (maze[rand_wall[0]][rand_wall[1] - 1] == 'x' and maze[rand_wall[0]][rand_wall[1] + 1] == cell):
 
                 # környező mezők kigyűjtése:
                 s_cells = surroundingCells(rand_wall, wall)
@@ -129,7 +125,7 @@ def mainFunctionGenerateLab(wall, cell, unvisited, height, width, maze):
 
         # Felső
         if rand_wall[0] != 0:
-            if (maze[rand_wall[0] - 1][rand_wall[1]] == 'u' and maze[rand_wall[0] + 1][rand_wall[1]] == cell):
+            if (maze[rand_wall[0] - 1][rand_wall[1]] == 'x' and maze[rand_wall[0] + 1][rand_wall[1]] == cell):
 
                 s_cells = surroundingCells(rand_wall, wall)
                 if s_cells < 2:
@@ -162,7 +158,7 @@ def mainFunctionGenerateLab(wall, cell, unvisited, height, width, maze):
 
         # Alsó
         if rand_wall[0] != height - 1:
-            if (maze[rand_wall[0] + 1][rand_wall[1]] == 'u' and maze[rand_wall[0] - 1][rand_wall[1]] == cell):
+            if (maze[rand_wall[0] + 1][rand_wall[1]] == 'x' and maze[rand_wall[0] - 1][rand_wall[1]] == cell):
 
                 s_cells = surroundingCells(rand_wall, wall)
                 if s_cells < 2:
@@ -190,7 +186,7 @@ def mainFunctionGenerateLab(wall, cell, unvisited, height, width, maze):
 
         # Jobb
         if rand_wall[1] != width - 1:
-            if (maze[rand_wall[0]][rand_wall[1] + 1] == 'u' and maze[rand_wall[0]][rand_wall[1] - 1] == cell):
+            if (maze[rand_wall[0]][rand_wall[1] + 1] == 'x' and maze[rand_wall[0]][rand_wall[1] - 1] == cell):
 
                 s_cells = surroundingCells(rand_wall, wall)
                 if s_cells < 2:
@@ -225,7 +221,7 @@ def mainFunctionGenerateLab(wall, cell, unvisited, height, width, maze):
     # maradék érintetlen blokk fallá alakítása:
     for i in range(0, height):
         for j in range(0, width):
-            if (maze[i][j] == 'u'):
+            if (maze[i][j] == 'x'):
                 maze[i][j] = wall
 
     # start megjelölése
@@ -245,12 +241,12 @@ def mainFunctionGenerateLab(wall, cell, unvisited, height, width, maze):
 # MAIN
 wall = '0'
 cell = '1'
-unvisited = 'u'
+seged = 'x'
 height = 20
 width = 20
 maze = []
 
-mainFunctionGenerateLab(wall, cell, unvisited, height, width, maze)
+mainFunctionGenerateLab(wall, cell, seged, height, width, maze)
 
 
 
