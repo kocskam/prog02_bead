@@ -102,6 +102,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("Labirintus")
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
+        self.flag = False
         font = QtGui.QFont()
         font.setFamily("Comic Sans MS")
         font.setPixelSize(18)
@@ -213,7 +214,8 @@ class MainWindow(QtWidgets.QMainWindow):
             msg.setDefaultButton(QMessageBox.Cancel)
             msg.buttonClicked.connect(self.popup_button)
             msg.exec()
-            self.babu.setFocus()
+            if self.flag == False:
+                self.babu.setFocus()
         except Exception as e:
             print(e)
 
@@ -313,7 +315,7 @@ class MainWindow(QtWidgets.QMainWindow):
         msg.setIcon(QtWidgets.QMessageBox.Information)
         msg.setText("Az Ön ideje: " + str(self.time.toString("hh:mm:ss")))
         msg.exec()
-
+        self.flag = True
         self.ls_Players.append(str("NÉV: " + self.name + '\n' + "IDŐ: " + tim))
         self.babu.clearFocus()
 
