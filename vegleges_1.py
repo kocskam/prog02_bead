@@ -86,8 +86,8 @@ class Babu(QtWidgets.QLabel):
                     move_to_y = self.y() +32
                     if (move_to_x, move_to_y) not in Walls.walls:
                         self.move(move_to_x, move_to_y)
-            else:
-                QtWidgets.QLabel.keyPressEvent(self, event)
+            #else:
+                #QtWidgets.QLabel.keyPressEvent(self, event)
 
         except Exception as e:
             print(e)
