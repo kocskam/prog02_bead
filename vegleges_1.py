@@ -102,7 +102,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setWindowTitle("Labirintus")
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
-        self.flag = False
+        self.flag = True
         font = QtGui.QFont()
         font.setFamily("Comic Sans MS")
         font.setPixelSize(18)
@@ -241,6 +241,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 msg.exec()
             else:
                 self.babu.setFocus()
+                self.flag = False
                 self.b_Start.setEnabled(False)
                 self.in_Name.setEnabled(False)
                 self.curr_time = QtCore.QTime(00, 00, 00)
