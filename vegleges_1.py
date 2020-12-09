@@ -233,6 +233,12 @@ class MainWindow(QtWidgets.QMainWindow):
                 msg.setText("Adjon meg egy nevet a játék indulásához!")
                 msg.setIcon(QMessageBox.Information)
                 msg.exec()
+            elif len(self.name) > 10:
+                msg = QMessageBox()
+                msg.setWindowTitle("FIGYELEM!")
+                msg.setText("Túl hosszú a név!")
+                msg.setIcon(QMessageBox.Information)
+                msg.exec()
             else:
                 self.babu.setFocus()
                 self.b_Start.setEnabled(False)

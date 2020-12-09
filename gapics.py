@@ -279,7 +279,7 @@ class MainWindow(QtWidgets.QMainWindow):
         msg.setIcon(QtWidgets.QMessageBox.Information)
         msg.setText("Az Ön ideje: " + str(self.time.toString("hh:mm:ss")))
         msg.exec()
-        QtWidgets.QApplication.instance().quit()
+
 
 if __name__ == '__main__':
         app = QApplication(sys.argv)
